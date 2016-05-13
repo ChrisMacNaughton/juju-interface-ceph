@@ -4,23 +4,24 @@ from charms.reactive import hook
 from charms.reactive import scopes
 # from charms.reactive import is_state
 # from charms.reactive import not_unless
+from charms.reactive import set_state
 
 
 class CephPeer(RelationBase):
-    scope = scopes.SERVICE
+    scope = scopes.UNIT
 
-    @hook('{provides:ceph}-relation-{joined,changed}')
+    @hook('{peers:ceph}-relation-{joined,changed}')
     def changed(self):
         self.set_state('{relation_name}.connected')
         # service = hookenv.remote_service_name()
         # conversation = self.conversation()
 
     def set_network(self, network):
+        # conversation = self.conversation()
         for conversation in self.conversations():
-            conversation.set_remote({
-                'ceph-public-address': network
-            })
-        self.set_state('{relation_name}.available')
+            conversation.set_remote('ceph-public-address', network)
+            # log("Updating conversation ({}) with {}".format(conversation, network))
+            conversation.set_state('{relation_name}.available')
 
     # def provide_auth(self, key, auth_supported):
     #     """
