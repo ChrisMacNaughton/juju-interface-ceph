@@ -4,7 +4,7 @@ from charms.reactive import hook
 from charms.reactive import scopes
 # from charms.reactive import is_state
 # from charms.reactive import not_unless
-from charms.reactive import set_state
+# from charms.reactive import set_state
 
 
 class CephPeer(RelationBase):
@@ -20,7 +20,6 @@ class CephPeer(RelationBase):
         # conversation = self.conversation()
         for conversation in self.conversations():
             conversation.set_remote('ceph-public-address', network)
-            # log("Updating conversation ({}) with {}".format(conversation, network))
             conversation.set_state('{relation_name}.available')
 
     # def provide_auth(self, key, auth_supported):
